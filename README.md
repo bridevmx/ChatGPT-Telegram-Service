@@ -1,56 +1,75 @@
 # Chat GPT Telegram Bot
 
-## Description
-
 This is a chat GPT telegram bot(s) service, that provides a simple way to monitor all bots with an admin panel.
 
-## Tech-stack
+## Screenshots
+
+TODO
+
+## Features
+
+- [x] Running multiple instances of ChatGPT telegram bots
+- [x] Admin Panel for managing messages, bots, users, and groups.
+
+## Technologies
 
 - Pocketbase
 - Grammy
 - Node.js
 - Express
 
-## Authors
+## Getting Started
 
-- Amir Nurmukhambetov [github link](https://github.com/hereugo)
+### Configuration
 
-## Setup locally
+Customize the configuration by copying `.env.example` and renaming it to `.env`, then editing the required parameters as desired:
 
-- Download repo
-
-```
-git clone git@github.com:
-```
-
-- Create `.env` file in the root from `.env.example`
-
-```
-cp .env.example .env
-```
-
-| VARIABLES   | Description    |
+| Parameters   | Description    |
 |--------------- | --------------- |
-| PB_ADMIN_EMAIL   | String. Email used to register to pocketbase first time. |
-| PB_ADMIN_PASSWORD  | String. Password used to register to pocketbase first time. |
-| PB_HOST   | String. |
-| PORT | String. |
+| OPENAI_API_KEY | Your OpenAI API key, you can get it from [here](https://platform.openai.com/account/api-keys) |
+| PB_ADMIN_EMAIL   | Email used to register to pocketbase first time. |
+| PB_ADMIN_PASSWORD  | Password used to register to pocketbase first time. |
 
-- Run pocketbase
+#### Optional Configuration
+
+The following parameters are optional and can be set in the `.env` file:
+
+| Parameters   | Description    |
+|--------------- | --------------- |
+| PB_HOST   | |
+| PORT  | |
+
+### Installing
+
+Clone the repository and navigate to the project directory:
+
+```
+git clone https://github.com/Hereugo/ChatGPT-Telegram-Service.git 
+cd ChatGPT-Telegram-Service
+```
+
+#### Running Locally
+
+Run pocketbase
 
 ```
 ./pocketbase/pocketbase serve 
 ```
 
-- Run server in root.
+Run server in root.
 
 ```
 npm run start
 ```
 
-## Available endpoints
+### Running using Docker Compose
 
-Express server has these endpoints:
+TODO
 
-- GET /active/bots - returns JSON list of bot tokens that are currently running
-- POST /webhook/bots - manages bots return JSON bot info and message status
+## Disclaimer
+
+This is a personal project and is not affiliated with OpenAI in any way.
+
+## Authors
+
+- Amir Nurmukhambetov [github link](https://github.com/hereugo)
