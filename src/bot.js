@@ -1,7 +1,7 @@
 import { Bot } from "grammy";
 import { padNumberWithZeros } from "./utils.js";
 
-export default function createBot(token, pb) {
+export default function createBot(token, pb, openai) {
   const bot = new Bot(token);
 
   // middleware to create new user if not exists
@@ -60,16 +60,43 @@ export default function createBot(token, pb) {
       return ctx.reply("You are not allowed to send messages to the bot.");
     }
 
-    const response = `You said: ${request}`;
+    // const completion = await openai.chat.completions.create({
+    //   model: ctx.config.model || "gpt-3.5-turbo",
+    //   messages: [
+    //     {
+    //       role: "system",
+    //       content: ctx.config.systemMessage || "You are a helpful assistant.",
+    //     },
+    //     {
+    //       role: "user",
+    //       content: request,
+    //     },
+    //   ],
+    // });
+    //
+    // const response = completion.choices[0].message.content;
+
+    const completion = {};
+    const response = "Hello!";
 
     try {
       const data = {
         user: ctx.userInfo.id,
         bot: ctx.config.id,
+        request,
         response,
+        modelUsed: completion.model || "gpt-3.5-turbo",
+        totalTokens: 0,
+        // totalTokens: completion.usage.total_tokens || 0,
       };
 
-      await pb.collection("messages").create(data);
+      pb.collection("messages")
+        .create(data)
+        .then((res) => {
+          console.log("Message saved: ", res);
+
+          ctx.reply(response);
+        });
     } catch (error) {
       console.log("Error: ", error.message);
     }

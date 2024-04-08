@@ -10,6 +10,7 @@ TODO
 
 - [x] Running multiple instances of ChatGPT telegram bots
 - [x] Admin Panel for managing messages, bots, users, and groups.
+- [ ] Simple ChatGPT telegram bot for groups and channels
 
 ## Technologies
 
@@ -34,10 +35,10 @@ Customize the configuration by copying `.env.example` and renaming it to `.env`,
 
 The following parameters are optional and can be set in the `.env` file:
 
-| Parameters   | Description    |
-|--------------- | --------------- |
-| PB_HOST   | |
-| PORT  | |
+| Parameters   | Description | Default Value |
+|--------------- | --------------- | ---------- |
+| PB_HOST   | | <http://127.0.0.1:8090> |
+| PORT  | | 3000 |
 
 ### Installing
 

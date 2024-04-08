@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import Pocketbase from "pocketbase";
+import OpenAI from "openai";
 import express from "express";
 import bodyParser from "body-parser";
 
@@ -11,6 +12,9 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 const pb = new Pocketbase(process.env.PB_HOST || "http://127.0.0.1:8090");
 const bots = {};
 
@@ -29,7 +33,7 @@ app.post("/webhook/bots", async (req, res) => {
 
     if (botData.isActive) {
       if (!bots.hasOwnProperty(botData.TOKEN)) {
-        bot = createBot(botData.TOKEN, pb);
+        bot = createBot(botData.TOKEN, pb, openai);
         bots[botData.TOKEN] = bot;
 
         bot.start();
@@ -50,7 +54,7 @@ app.post("/webhook/bots", async (req, res) => {
         message = `Bot ${botData.TOKEN} has been stopped!`;
       } else {
         // Create a bot instance to get the bot info
-        bot = createBot(botData.TOKEN, pb);
+        bot = createBot(botData.TOKEN, pb, openai);
         message = `Bot ${botData.TOKEN} is not running!`;
       }
     }
@@ -64,9 +68,7 @@ app.post("/webhook/bots", async (req, res) => {
         username: botInfo.username,
         firstName: botInfo.first_name || "",
 
-        canJoinGroups: botInfo.can_join_groups || false,
-        canReadAllGroupMessages: botInfo.can_read_all_group_messages || false,
-        supportsInlineQueries: botInfo.supports_inline_queries || false,
+        model: botData.model || "gpt-3.5-turbo",
       },
     });
   } catch (err) {
@@ -89,7 +91,7 @@ app.listen(port, async () => {
 
   botsData.forEach((botData) => {
     if (!bots.hasOwnProperty(botData.TOKEN)) {
-      const bot = createBot(botData.TOKEN, pb);
+      const bot = createBot(botData.TOKEN, pb, openai);
       bots[botData.TOKEN] = bot;
 
       bot.start();
