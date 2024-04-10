@@ -49,7 +49,11 @@ export default function createBot(token, pb, openai) {
   });
 
   bot.command("start", async (ctx) => {
-    await ctx.reply("Welcome to the message!");
+    await ctx.reply(
+      "👋 Welcome to [Your Bot Name]!\n" +
+        "I'm here to assist you with any questions you have. Just type `/bot` followed by your message, and I'll do my best to help you out.\n\n" +
+        "Feel free to explore the features and let me know if there's anything specific you need assistance with. Have a great time chatting!\n",
+    );
   });
 
   bot.hears(/bot *(.+)?/, async (ctx) => {
@@ -60,24 +64,24 @@ export default function createBot(token, pb, openai) {
       return ctx.reply("You are not allowed to send messages to the bot.");
     }
 
-    // const completion = await openai.chat.completions.create({
-    //   model: ctx.config.model || "gpt-3.5-turbo",
-    //   messages: [
-    //     {
-    //       role: "system",
-    //       content: ctx.config.systemMessage || "You are a helpful assistant.",
-    //     },
-    //     {
-    //       role: "user",
-    //       content: request,
-    //     },
-    //   ],
-    // });
-    //
-    // const response = completion.choices[0].message.content;
+    const completion = await openai.chat.completions.create({
+      model: ctx.config.model || "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: ctx.config.systemMessage || "You are a helpful assistant.",
+        },
+        {
+          role: "user",
+          content: request,
+        },
+      ],
+    });
 
-    const completion = {};
-    const response = "Hello!";
+    const response = completion.choices[0].message.content;
+
+    // const completion = {};
+    // const response = "Hello!";
 
     try {
       const data = {
@@ -86,8 +90,8 @@ export default function createBot(token, pb, openai) {
         request,
         response,
         modelUsed: completion.model || "gpt-3.5-turbo",
-        totalTokens: 0,
-        // totalTokens: completion.usage.total_tokens || 0,
+        // totalTokens: 0,
+        totalTokens: completion.usage.total_tokens || 0,
       };
 
       pb.collection("messages")

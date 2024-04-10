@@ -1,7 +1,7 @@
 const foo = (e) => {
   try {
     const response = $http.send({
-      url: "http://localhost:3000/webhook/bots",
+      url: (process.env.APP_URL || "http://localhost:3000") + "/webhook/bots",
       method: "POST",
       headers: {
         "Content-Type": "application/json",

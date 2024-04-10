@@ -18,12 +18,6 @@ const openai = new OpenAI({
 const pb = new Pocketbase(process.env.PB_HOST || "http://127.0.0.1:8090");
 const bots = {};
 
-app.get("/active/bots", (_req, res) => {
-  return res.status(200).json({
-    bots: Object.keys(bots),
-  });
-});
-
 app.post("/webhook/bots", async (req, res) => {
   const botData = req.body;
   var bot;
@@ -78,7 +72,7 @@ app.post("/webhook/bots", async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 app.listen(port, async () => {
   await pb.admins.authWithPassword(
     process.env.PB_ADMIN_EMAIL,

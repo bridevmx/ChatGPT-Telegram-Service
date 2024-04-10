@@ -31,15 +31,6 @@ Customize the configuration by copying `.env.example` and renaming it to `.env`,
 | PB_ADMIN_EMAIL   | Email used to register to pocketbase first time. |
 | PB_ADMIN_PASSWORD  | Password used to register to pocketbase first time. |
 
-#### Optional Configuration
-
-The following parameters are optional and can be set in the `.env` file:
-
-| Parameters   | Description | Default Value |
-|--------------- | --------------- | ---------- |
-| PB_HOST   | | <http://127.0.0.1:8090> |
-| PORT  | | 3000 |
-
 ### Installing
 
 Clone the repository and navigate to the project directory:
